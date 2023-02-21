@@ -1,0 +1,5 @@
+There are few things involved
+ a. Calculating the mouse click position
+ b. Adjusting the position for any offsets, margins and paddings
+ c. Setting a transform to move the element to the click point
+ d. Using a transition to animate the transform property 

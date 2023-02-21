@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./fontawesome-free-5.15.4-web/css/all.css">
+    <title>Mouse co-ordinates</title>
+    <style>
+        body{
+            background-color: #fff;
+            padding: 50px;
+            margin: 0;
+        }
+        #contentContainer{
+            width: 550px;
+            height: 350px;
+            border: 15px #EDEDED solid;
+            overflow: hidden;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        #thing{
+            width: 75px;
+            height: 75px;
+            background-color: rgb(255, 207, 0);
+            border-radius: 50%;
+            border: 15px rgb(255, 199, 0) solid;
+
+            /* giving our cirlce a default position. note 3d takes 3 parameters (x,y,z) */
+            transform: translate3d(50px, 50px, 0);
+
+            /* To animate it so as so translate in any style you want */
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+    </style>
+</head>
+<body>
+    <div id="contentContainer">
+        <div id="thing"></div>
+    </div>
+
+
+
+    <script>
+        // To point to the html element we write
+        var theThing = document.querySelector("#thing");
+        var container = document.querySelector("#contentContainer");
+
+        // Adding events (eg clicking or any other event will give an effect)
+
+        container.addEventListener("click", getClickPosition, false);
+        // the getClickPosition is a function that will still be defined later on and the false here is yes to bubbling and not capturing.
+
+        function getClickPosition(e) {
+            // within this function we shall put the code that will make our circle move
+            var parentPosition = getPosition(container);
+            var xPosition = e.clientX - parentPosition.x - (theThing.offsetWidth / 2);
+            var yPosition = e.clientY - parentPosition.y - (theThing.offsetHeight / 2);
+            // clientX gives the X position of the mouse and clientY the Y position
+            // with just clientX and Y wont center the circle with the mouse... to achieve this subtract half offsetwidth from x and half offsetheight from y
+            // take a code from GETTING THE MOUSE CLICK POSITION and the function code to your code then subtract from the client X and Y
+
+
+
+
+            var translate3dValue = `translate3d(${xPosition}px, ${yPosition}px, 0)`;
+            // in the translate3d everything within it is just the same x,y,z axis
+            // Now, we can assign the variable to the element we want it to effect on
+            theThing.style.transform = translate3dValue;
+            // after assigning translate to the circle, it was seen that the circle isnt falling to the center of the mouse
+        }
+
+            // The template function code to get the positioning for our circle
+            function getPosition(element) {
+                var xPosition = 0;
+                var yPosition = 0;
+                while (element) {
+                    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+                    xPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+                    element = element.offsetParent;
+                }
+                return {
+                    x: xPosition,
+                    y: yPosition
+                };
+            }
+    </script>
+    <script src="./delete.js"></script>
+</body>
+</html>
